@@ -24,4 +24,12 @@ class TimeSlotTest {
         LocalDateTime ten = LocalDateTime.of(2027, 1, 11, 10, 0);
         assertThrows(IllegalArgumentException.class, () -> new TimeSlot(ten, null));
     }
+    @Test
+    void getStartAndGetEndReturnTheGivenTimes() {
+        LocalDateTime nine = LocalDateTime.of(2027, 1, 11, 9, 0);
+        LocalDateTime ten = LocalDateTime.of(2027, 1, 11, 10, 0);
+        TimeSlot slot = new TimeSlot(nine, ten);
+        assertEquals(nine, slot.getStart());
+        assertEquals(ten, slot.getEnd());
+    }
 }
