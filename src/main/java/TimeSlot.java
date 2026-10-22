@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.time.Duration;
 
 public final class TimeSlot {
     private final LocalDateTime start;
@@ -24,5 +25,8 @@ public final class TimeSlot {
 
     public LocalDateTime getEnd() {
         return end;
+    }
+    public Duration duration() {
+        return null;
     }
 }
