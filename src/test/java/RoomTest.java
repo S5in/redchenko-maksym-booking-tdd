@@ -7,4 +7,9 @@ class RoomTest {
         Room room = new Room("R1", "Room 1");
         assertEquals("R1", room.getId());
     }
+    @Test
+    void roomKeepsItsName() {
+        Room room = new Room("R1", "Room 1");
+        assertEquals("Room 1", room.getName());
+    }
 }
