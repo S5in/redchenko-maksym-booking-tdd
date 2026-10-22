@@ -50,6 +50,6 @@ public class BookingService {
 
     /** A user's bookings, earliest first. */
     public List<Booking> bookingsFor(String userId) {
-        throw new UnsupportedOperationException("TODO: implement using TDD");
+        return bookings.findByUser(userId);
     }
 }
