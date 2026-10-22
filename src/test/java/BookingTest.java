@@ -23,4 +23,11 @@ class BookingTest {
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
     }
+    @Test
+    void bookingsDifferingInUserRoomOrSlotAreNotEqual() {
+        Booking base = new Booking("alice", "R1", slot(10, 11));
+        assertNotEquals(base, new Booking("bob", "R1", slot(10, 11)));
+        assertNotEquals(base, new Booking("alice", "R2", slot(10, 11)));
+        assertNotEquals(base, new Booking("alice", "R1", slot(10, 12)));
+    }
 }
