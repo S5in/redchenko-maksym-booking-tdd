@@ -67,4 +67,9 @@ class TimeSlotTest {
         assertEquals(a, b);
         assertEquals(a.hashCode(), b.hashCode());
     }
+    @Test
+    void slotsWithDifferentTimesAreNotEqual() {
+        assertNotEquals(slot(10, 11), slot(10, 12)); // end differs
+        assertNotEquals(slot(10, 12), slot(11, 12)); // start differs
+    }
 }
