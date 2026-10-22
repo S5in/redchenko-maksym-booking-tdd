@@ -16,4 +16,11 @@ class BookingTest {
         assertEquals("R1", booking.getRoomId());
         assertEquals(slot, booking.getSlot());
     }
+    @Test
+    void bookingsWithSameUserRoomAndSlotAreEqualWithSameHashCode() {
+        Booking a = new Booking("alice", "R1", slot(10, 11));
+        Booking b = new Booking("alice", "R1", slot(10, 11));
+        assertEquals(a, b);
+        assertEquals(a.hashCode(), b.hashCode());
+    }
 }
