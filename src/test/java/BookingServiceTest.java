@@ -38,4 +38,9 @@ class BookingServiceTest {
         assertThrows(IllegalArgumentException.class,
                 () -> service.book("alice", "R1", slot(8, 9)));
     }
+    @Test
+    void bookingALongerThanThreeHoursSlotIsRejected() {
+        assertThrows(IllegalArgumentException.class,
+                () -> service.book("alice", "R1", slot(10, 14)));
+    }
 }
