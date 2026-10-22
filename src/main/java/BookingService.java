@@ -1,4 +1,5 @@
 import java.time.*;
+import java.util.Comparator;
 import java.util.List;
 
 public class BookingService {
@@ -50,6 +51,8 @@ public class BookingService {
 
     /** A user's bookings, earliest first. */
     public List<Booking> bookingsFor(String userId) {
-        return bookings.findByUser(userId);
+        return bookings.findByUser(userId).stream()
+                .sorted(Comparator.comparing(b -> b.getSlot().getStart()))
+                .toList();
     }
 }
