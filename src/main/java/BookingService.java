@@ -41,7 +41,11 @@ public class BookingService {
     }
     /** Cancel a user's booking. */
     public void cancel(String userId, String roomId, TimeSlot slot) {
-        bookings.delete(new Booking(userId, roomId, slot));
+        Booking booking = new Booking(userId, roomId, slot);
+        if (!bookings.findByUser(userId).contains(booking)) {
+            throw new IllegalArgumentException("no such booking");
+        }
+        bookings.delete(booking);
     }
 
     /** A user's bookings, earliest first. */
