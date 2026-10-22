@@ -30,6 +30,11 @@ public class BookingService {
                 throw new IllegalStateException("room already booked for that time");
             }
         }
+        for (Booking existing : bookings.findByUser(userId)) {
+            if (existing.getSlot().overlaps(slot)) {
+                throw new IllegalStateException("user already has a booking at that time");
+            }
+        }
         Booking booking = new Booking(userId, roomId, slot);
         bookings.save(booking);
         return booking;
