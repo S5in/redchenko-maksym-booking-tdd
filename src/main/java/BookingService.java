@@ -15,6 +15,7 @@ public class BookingService {
                 new SlotMustNotBeTooLong(),
                 new RoomMustBeFree(bookings),
                 new UserMustBeFree(bookings),
+                new UserBookingLimit(bookings, clock),
                 new UserBookingLimit(bookings, clock));
     }
 
