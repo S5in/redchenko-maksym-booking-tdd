@@ -19,27 +19,13 @@ public class BookingService {
         new RoomMustExist(rooms).check(userId, roomId, slot);
         new SlotMustBeInFuture(clock).check(userId, roomId, slot);
         new SlotMustNotBeTooLong().check(userId, roomId, slot);
-        checkRoomIsFree(roomId, slot);
+        new RoomMustBeFree(bookings).check(userId, roomId, slot);
         checkUserIsFree(userId, slot);
         Booking booking = new Booking(userId, roomId, slot);
         bookings.save(booking);
         return booking;
     }
 
-
-    private void checkSlotNotTooLong(TimeSlot slot) {
-        if (slot.duration().compareTo(MAX_SLOT) > 0) {
-            throw new IllegalArgumentException("slot must not be longer than " + MAX_SLOT);
-        }
-    }
-
-    private void checkRoomIsFree(String roomId, TimeSlot slot) {
-        for (Booking existing : bookings.findByRoom(roomId)) {
-            if (existing.getSlot().overlaps(slot)) {
-                throw new IllegalStateException("room already booked for that time");
-            }
-        }
-    }
 
     private void checkUserIsFree(String userId, TimeSlot slot) {
         for (Booking existing : bookings.findByUser(userId)) {
