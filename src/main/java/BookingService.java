@@ -14,7 +14,8 @@ public class BookingService {
                 new SlotMustBeInFuture(clock),
                 new SlotMustNotBeTooLong(),
                 new RoomMustBeFree(bookings),
-                new UserMustBeFree(bookings));
+                new UserMustBeFree(bookings),
+                new UserBookingLimit(bookings, clock));
     }
 
     /** Book a room for a user. Returns the new booking. */
