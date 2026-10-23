@@ -24,7 +24,7 @@ Work done: `TimeSlot` (Part A), `Room`, `Booking`, `BookingService` rules R1 to 
 | D-2 | "More than 14 days after the current date": compare dates or exact times? Is exactly 14 days allowed? | No ruling yet. Implemented: compare the slot's start date with today plus 14 days; exactly 14 days is allowed. | `aSlotMoreThanFourteenDaysAheadIsRejected`, `aSlotExactlyFourteenDaysAheadIsAllowed`. |
 
 ## AI corrections (at least three)
-So far none of the AI's code or suggestions was wrong in a way one of my tests caught, so there is nothing real to record. I am not inventing entries. I will add any genuine case here, in this format, and tell my supervisor that I have fewer than three.
+So far none of the AI's code or suggestions was wrong in a way one of my tests caught, so there is nothing real to record. I am not inventing entries. 
 
 ### 1
 - What I asked:
