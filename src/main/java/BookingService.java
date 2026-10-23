@@ -16,7 +16,7 @@ public class BookingService {
 
     /** Book a room for a user. Returns the new booking. */
     public Booking book(String userId, String roomId, TimeSlot slot) {
-        checkRoomExists(roomId);
+        new RoomMustExist(rooms).check(userId, roomId, slot);
         checkSlotInFuture(slot);
         checkSlotNotTooLong(slot);
         checkRoomIsFree(roomId, slot);
@@ -24,12 +24,6 @@ public class BookingService {
         Booking booking = new Booking(userId, roomId, slot);
         bookings.save(booking);
         return booking;
-    }
-
-    private void checkRoomExists(String roomId) {
-        if (rooms.findById(roomId) == null) {
-            throw new IllegalArgumentException("unknown room: " + roomId);
-        }
     }
 
     private void checkSlotInFuture(TimeSlot slot) {
