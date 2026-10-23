@@ -17,7 +17,7 @@ public class BookingService {
     /** Book a room for a user. Returns the new booking. */
     public Booking book(String userId, String roomId, TimeSlot slot) {
         new RoomMustExist(rooms).check(userId, roomId, slot);
-        checkSlotInFuture(slot);
+        new SlotMustBeInFuture(clock).check(userId, roomId, slot);
         checkSlotNotTooLong(slot);
         checkRoomIsFree(roomId, slot);
         checkUserIsFree(userId, slot);
@@ -26,11 +26,6 @@ public class BookingService {
         return booking;
     }
 
-    private void checkSlotInFuture(TimeSlot slot) {
-        if (slot.getStart().isBefore(LocalDateTime.now(clock))) {
-            throw new IllegalArgumentException("slot must be in the future");
-        }
-    }
 
     private void checkSlotNotTooLong(TimeSlot slot) {
         if (slot.duration().compareTo(MAX_SLOT) > 0) {
