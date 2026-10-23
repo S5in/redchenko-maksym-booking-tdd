@@ -4,7 +4,6 @@ import java.util.List;
 
 public class BookingService {
     public static final Duration MAX_SLOT = Duration.ofHours(3);
-
     private final IRoomRepository rooms;
     private final IBookingRepository bookings;
     private final Clock clock;
@@ -17,29 +16,50 @@ public class BookingService {
 
     /** Book a room for a user. Returns the new booking. */
     public Booking book(String userId, String roomId, TimeSlot slot) {
+        checkRoomExists(roomId);
+        checkSlotInFuture(slot);
+        checkSlotNotTooLong(slot);
+        checkRoomIsFree(roomId, slot);
+        checkUserIsFree(userId, slot);
+        Booking booking = new Booking(userId, roomId, slot);
+        bookings.save(booking);
+        return booking;
+    }
+
+    private void checkRoomExists(String roomId) {
         if (rooms.findById(roomId) == null) {
             throw new IllegalArgumentException("unknown room: " + roomId);
         }
+    }
+
+    private void checkSlotInFuture(TimeSlot slot) {
         if (slot.getStart().isBefore(LocalDateTime.now(clock))) {
             throw new IllegalArgumentException("slot must be in the future");
         }
+    }
+
+    private void checkSlotNotTooLong(TimeSlot slot) {
         if (slot.duration().compareTo(MAX_SLOT) > 0) {
             throw new IllegalArgumentException("slot must not be longer than " + MAX_SLOT);
         }
+    }
+
+    private void checkRoomIsFree(String roomId, TimeSlot slot) {
         for (Booking existing : bookings.findByRoom(roomId)) {
             if (existing.getSlot().overlaps(slot)) {
                 throw new IllegalStateException("room already booked for that time");
             }
         }
+    }
+
+    private void checkUserIsFree(String userId, TimeSlot slot) {
         for (Booking existing : bookings.findByUser(userId)) {
             if (existing.getSlot().overlaps(slot)) {
                 throw new IllegalStateException("user already has a booking at that time");
             }
         }
-        Booking booking = new Booking(userId, roomId, slot);
-        bookings.save(booking);
-        return booking;
     }
+
     /** Cancel a user's booking. */
     public void cancel(String userId, String roomId, TimeSlot slot) {
         Booking booking = new Booking(userId, roomId, slot);
