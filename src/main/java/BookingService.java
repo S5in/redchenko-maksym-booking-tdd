@@ -18,7 +18,7 @@ public class BookingService {
     public Booking book(String userId, String roomId, TimeSlot slot) {
         new RoomMustExist(rooms).check(userId, roomId, slot);
         new SlotMustBeInFuture(clock).check(userId, roomId, slot);
-        checkSlotNotTooLong(slot);
+        new SlotMustNotBeTooLong().check(userId, roomId, slot);
         checkRoomIsFree(roomId, slot);
         checkUserIsFree(userId, slot);
         Booking booking = new Booking(userId, roomId, slot);
